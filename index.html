@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>6789 — Workspace</title>
+<style>
+:root {
+    --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+    --bg-base: #111113;
+    --bg-window: rgba(28, 28, 30, 0.82);
+    --bg-card: #242426;
+    --bg-card-hover: #2c2c2e;
+    --border-hairline: rgba(255, 255, 255, 0.09);
+    --border-highlight: rgba(255, 255, 255, 0.2);
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --mac-blue: #0071e3;
+    --mac-blue-hover: #0077ed;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-sf);
+    background-color: var(--bg-base);
+    background-image: radial-gradient(800px 500px at 50% -10%, rgba(255, 255, 255, 0.045), transparent 70%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* ================= macOS Minimal Menu Bar ================= */
+.menubar {
+    height: 30px;
+    padding: 0 18px;
+    background: rgba(22, 22, 24, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border-hairline);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-primary);
+    z-index: 100;
+}
+
+.menubar-left, .menubar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.brand-mark {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.menu-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+.menu-link:hover, .menu-link.active {
+    color: var(--text-primary);
+}
+
+/* ================= Main Center Stage ================= */
+.stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    max-width: 920px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Hero Typography */
+.header-block {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.system-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 0.5px solid var(--border-hairline);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: default;
+    user-select: none;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #30d158;
+}
+
+.header-block h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.header-block p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* ================= macOS Dual Workspace Container ================= */
+.mac-panel {
+    width: 100%;
+    background: var(--bg-window);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 0.5px solid var(--border-hairline);
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+.panel-bar {
+    height: 40px;
+    padding: 0 16px;
+    border-bottom: 0.5px solid var(--border-hairline);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.015);
+}
+
+.traffic-lights {
+    display: flex;
+    gap: 8px;
+}
+.dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+.dot-r { background: #ff5f56; }
+.dot-y { background: #ffbd2e; }
+.dot-g { background: #27c93f; }
+
+.panel-title {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.panel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--border-hairline);
+}
+
+.workspace-card {
+    background: #1c1c1e;
+    padding: 34px 32px;
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.workspace-card:hover, .workspace-card:focus-visible {
+    background: #232326;
+    outline: none;
+}
+
+.card-top {
+    margin-bottom: 28px;
+}
+
+.icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 10px 24px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0.5px rgba(255, 255, 255, 0.35),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.icon-frp {
+    background: linear-gradient(180deg, #3a3a3c 0%, #1c1c1e 100%);
+    border: 0.5px solid rgba(255, 255, 255, 0.16);
+}
+
+.icon-tv {
+    background: linear-gradient(180deg, #2c2c2e 0%, #141416 100%);
+    border: 0.5px solid rgba(255, 255, 255, 0.16);
+}
+
+.workspace-card:hover .icon-box, .workspace-card:focus-visible .icon-box {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 
+        0 14px 30px rgba(0, 113, 227, 0.35),
+        inset 0 1px 0.5px rgba(255, 255, 255, 0.45);
+}
+
+.card-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.card-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.card-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+/* Minimalist Spec List */
+.spec-list {
+    list-style: none;
+    margin: 22px 0 28px;
+    padding-top: 18px;
+    border-top: 0.5px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    color: #a1a1a6;
+}
+
+.spec-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.spec-list li span:last-child {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* Native macOS Push Button */
+.action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 9px;
+    background: #2c2c2e;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.workspace-card:hover .action-bar, .workspace-card:focus-visible .action-bar {
+    background: var(--mac-blue);
+    border-color: var(--mac-blue);
+    color: #fff;
+}
+
+/* ================= Minimalist Bottom Dock ================= */
+.bottom-bar {
+    padding: 0 20px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.mac-dock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(28, 28, 30, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid var(--border-hairline);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dock-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    border-radius: 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dock-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.dock-sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border-hairline);
+}
+
+@media (max-width: 720px) {
+    .panel-grid {
+        grid-template-columns: 1fr;
+    }
+    .workspace-card {
+        padding: 26px 22px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Menu Bar -->
+<header class="menubar">
+    <div class="menubar-left">
+        <a href="./" class="brand-mark">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.96 6.33c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.58.68-1.1 1.79-.96 2.84 1.04.08 2.08-.52 2.72-1.3z"/>
+            </svg>
+            <span>6789</span>
+        </a>
+        <a href="frp/" class="menu-link">FRP Tools</a>
+        <a href="tv/" class="menu-link">Kho App TV</a>
+    </div>
+    <div class="menubar-right">
+        <span id="clock" style="color: var(--text-secondary);">12:00</span>
+    </div>
+</header>
+
+<!-- Center Stage -->
+<main class="stage">
+    <div class="header-block">
+        <h1>6789 APP</h1>
+    </div>
+
+    <div class="mac-panel">
+        <div class="panel-bar">
+            <div class="traffic-lights">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+            </div>
+            <div class="system-pill" id="secret-admin-trigger">
+                <span class="status-dot"></span>
+                <span>6789</span>
+            </div>
+            <div style="width: 48px;"></div>
+        </div>
+
+        <div class="panel-grid">
+            <!-- LỰA CHỌN 1: FRP & MOBILE TOOLS -->
+            <a href="frp/" class="workspace-card" id="opt-frp" autofocus>
+                <div>
+                    <div class="card-top">
+                        <div class="icon-box icon-frp">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+                                <defs>
+                                    <linearGradient id="shieldGrad" x1="12" y1="6" x2="36" y2="42" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#64D2FF"/>
+                                        <stop offset="100%" stop-color="#0071E3"/>
+                                    </linearGradient>
+                                    <linearGradient id="keyGrad" x1="18" y1="18" x2="30" y2="32" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#FFFFFF"/>
+                                        <stop offset="100%" stop-color="#D1E8FF"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- macOS Shield Base -->
+                                <path d="M24 5L9 11.2V22.8C9 32.8 15.4 41.8 24 44.5C32.6 41.8 39 32.8 39 22.8V11.2L24 5Z" fill="url(#shieldGrad)" fill-opacity="0.22" stroke="url(#shieldGrad)" stroke-width="2.4" stroke-linejoin="round"/>
+                                <!-- Unlock Keyhole / Shackle -->
+                                <rect x="17.5" y="23" width="13" height="10" rx="3" fill="url(#keyGrad)"/>
+                                <path d="M20 23V18.5C20 16.3 21.8 14.5 24 14.5C25.8 14.5 27.3 15.7 27.8 17.3" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                                <circle cx="24" cy="27.2" r="1.5" fill="#0071E3"/>
+                                <path d="M24 28.5V30.5" stroke="#0071E3" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h2 class="card-title">FRP & Mobile Tools</h2>
+                        <p class="card-desc">
+                            Bảng điều khiển gọi nhanh Intent hệ thống Android, tải APK Bypass FRP và cấu hình iOS.
+                        </p>
+                    </div>
+
+                    <ul class="spec-list">
+                        <li><span>Android Intent</span><span>Settings, Galaxy Store, ADB</span></li>
+                        <li><span>Gói APK Bypass</span><span>GAM 8-9-10, FRP Sign-in</span></li>
+                        <li><span>Tiện ích iOS</span><span>TrollStore, Block FMI</span></li>
+                    </ul>
+                </div>
+
+                <div class="action-bar">
+                    <span>Mở Công Cụ FRP</span>
+                    <span>→</span>
+                </div>
+            </a>
+
+            <!-- LỰA CHỌN 2: ANDROID TV STORE -->
+            <a href="tv/" class="workspace-card" id="opt-tv">
+                <div>
+                    <div class="card-top">
+                        <div class="icon-box icon-tv">
+                            <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+                                <defs>
+                                    <linearGradient id="tvScreen" x1="8" y1="10" x2="40" y2="34" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#5E5CE6"/>
+                                        <stop offset="50%" stop-color="#0A84FF"/>
+                                        <stop offset="100%" stop-color="#64D2FF"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Apple TV / Display Bezel -->
+                                <rect x="6" y="10" width="36" height="24" rx="4.5" fill="url(#tvScreen)" fill-opacity="0.24" stroke="url(#tvScreen)" stroke-width="2.4"/>
+                                <!-- Play / App Store Symbol Inside -->
+                                <path d="M21 17.5L29.5 22L21 26.5V17.5Z" fill="#FFFFFF"/>
+                                <!-- Stand -->
+                                <path d="M17 39H31" stroke="#E5E5EA" stroke-width="2.6" stroke-linecap="round"/>
+                                <path d="M24 34V39" stroke="#8E8E93" stroke-width="2.6" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h2 class="card-title">Kho Ứng Dụng TV</h2>
+                        <p class="card-desc">
+                            Kho lưu trữ & cài đặt nhanh file APK cá nhân dành cho Android TV, Google TV và TV Box.
+                        </p>
+                    </div>
+
+                    <ul class="spec-list">
+                        <li><span>YouTube & Giải trí</span><span>SmartTube, TikTok</span></li>
+                        <li><span>Truyền hình & Phim</span><span>VTV, TV360, Phim 4K</span></li>
+                        <li><span>Tiện ích hệ thống</span><span>Giọng nói, Launcher</span></li>
+                    </ul>
+                </div>
+
+                <div class="action-bar">
+                    <span>Mở Kho App TV</span>
+                    <span>→</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+
+<!-- Bottom Minimal Dock -->
+<footer class="bottom-bar">
+    <nav class="mac-dock">
+        <a href="frp/" class="dock-btn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2.5L4.5 5.6V11.4C4.5 16.4 7.7 20.9 12 22.2C16.3 20.9 19.5 16.4 19.5 11.4V5.6L12 2.5Z" fill="#0071E3" fill-opacity="0.25" stroke="#64D2FF" stroke-width="1.8"/>
+                <rect x="9" y="11" width="6" height="5" rx="1.5" fill="#fff"/>
+                <path d="M10.2 11V9C10.2 8 11 7.2 12 7.2C12.8 7.2 13.5 7.7 13.7 8.4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span>FRP & Mobile</span>
+        </a>
+        <div class="dock-sep"></div>
+        <a href="tv/" class="dock-btn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                <rect x="2.5" y="4.5" width="19" height="12.5" rx="2.5" fill="#5E5CE6" fill-opacity="0.28" stroke="#64D2FF" stroke-width="1.8"/>
+                <path d="M10.5 8.5L14.5 10.75L10.5 13V8.5Z" fill="#fff"/>
+                <path d="M8.5 20H15.5M12 17V20" stroke="#A1A1A6" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span>Kho App TV</span>
+        </a>
+    </nav>
+</footer>
+
+<script>
+// Cơ chế bí mật: Bấm đủ 3 lần vào "Personal Workspace • 6789" mới mở trang Admin
+(function() {
+    var clicks = 0;
+    var timer;
+    var trigger = document.getElementById('secret-admin-trigger');
+    trigger.addEventListener('click', function() {
+        clicks++;
+        clearTimeout(timer);
+        if (clicks >= 3) {
+            clicks = 0;
+            window.location.href = 'frp/admin.html';
+        } else {
+            timer = setTimeout(function() { clicks = 0; }, 1200);
+        }
+    });
+})();
+function updateClock() {
+    var now = new Date();
+    document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+}
+updateClock();
+setInterval(updateClock, 15000);
+
+// Điều hướng bằng phím mũi tên cho Remote TV & Bàn phím
+document.addEventListener('keydown', function(e) {
+    var frp = document.getElementById('opt-frp');
+    var tv = document.getElementById('opt-tv');
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        tv.focus();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        frp.focus();
+    }
+});
+</script>
+</body>
+</html>
