@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6789 — Quản Lý Danh Sách Ứng Dụng (Bảo Mật)</title>
+<style>
+:root {
+    --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+    --bg-base: #111113;
+    --bg-window: #1c1c1e;
+    --bg-card: #242426;
+    --border-hairline: rgba(255, 255, 255, 0.08);
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --mac-blue: #0071e3;
+    --mac-green: #30d158;
+    --mac-red: #ff5f56;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sf);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ================= macOS Lock Screen Gate ================= */
+.lock-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: radial-gradient(600px 400px at 50% 30%, rgba(255, 255, 255, 0.05), transparent), #0d0d0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.lock-card {
+    width: 100%;
+    max-width: 360px;
+    background: var(--bg-window);
+    border: 0.5px solid var(--border-hairline);
+    border-radius: 18px;
+    padding: 32px 26px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.avatar-lock {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #2c2c2e;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: grid;
+    place-items: center;
+    margin: 0 auto 14px;
+    color: var(--text-primary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.lock-card h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.lock-card p {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.pin-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 9px;
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    background: #141416;
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+    letter-spacing: 3px;
+    outline: none;
+    margin-bottom: 12px;
+}
+.pin-input:focus {
+    border-color: var(--mac-blue);
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.25);
+}
+
+.lock-error {
+    color: var(--mac-red);
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+/* ================= Admin Main Panel ================= */
+.admin-panel {
+    display: none;
+    padding: 32px 20px 60px;
+}
+.container { max-width: 840px; margin: 0 auto; }
+.header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 0.5px solid var(--border-hairline);
+    padding-bottom: 16px; margin-bottom: 24px;
+}
+.header h1 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.nav-links { display: flex; gap: 14px; align-items: center; }
+.btn-link {
+    color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; cursor: pointer; background: none; border: 0;
+}
+.btn-link:hover { color: var(--text-primary); }
+
+.security-banner {
+    background: rgba(48, 209, 88, 0.08);
+    border: 0.5px solid rgba(48, 209, 88, 0.25);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: #b7f0c4;
+}
+.security-banner strong { color: #30d158; display: block; margin-bottom: 3px; }
+
+.card {
+    background: var(--bg-window);
+    border: 0.5px solid var(--border-hairline);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 22px;
+}
+.card h2 {
+    font-size: 15px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary);
+}
+.form-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+}
+.form-group { margin-bottom: 14px; }
+.form-group.full { grid-column: 1 / -1; }
+label {
+    display: block; margin-bottom: 6px; font-weight: 500; font-size: 12.5px; color: var(--text-secondary);
+}
+input[type="text"], input[type="password"], select {
+    width: 100%; padding: 9px 12px; border-radius: 8px;
+    border: 0.5px solid var(--border-hairline);
+    background: var(--bg-card); color: var(--text-primary);
+    font-family: inherit; font-size: 13.5px; outline: none;
+}
+input:focus, select:focus { border-color: var(--mac-blue); }
+
+.btn {
+    background: var(--mac-blue);
+    color: #fff; border: 0; padding: 9px 18px; font-weight: 500; border-radius: 8px;
+    cursor: pointer; font-size: 13px; width: auto;
+}
+.btn:hover { opacity: 0.92; }
+.btn-full { width: 100%; padding: 10px; font-weight: 600; }
+.btn-secondary {
+    background: #2c2c2e; border: 0.5px solid rgba(255,255,255,0.12); color: var(--text-primary);
+}
+
+.app-list { display: grid; gap: 8px; }
+.app-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg-card); border: 0.5px solid var(--border-hairline);
+    padding: 10px 14px; border-radius: 10px;
+}
+.app-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.app-thumb { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: #141416; }
+.app-actions button {
+    background: transparent; border: 0.5px solid rgba(255, 95, 86, 0.35); color: #ff5f56;
+    border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px;
+}
+.app-actions button:hover { background: rgba(255, 95, 86, 0.12); }
+.badge {
+    display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 11px;
+    background: rgba(255, 255, 255, 0.06); color: var(--text-secondary); margin-left: 6px;
+}
+@media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- MÀN HÌNH KHÓA BẢO MẬT ADMIN (macOS Lock Screen) -->
+<div class="lock-screen" id="lock-screen">
+    <div class="lock-card">
+        <div class="avatar-lock">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+        </div>
+        <h2>Quản Trị Viên 6789</h2>
+        <p>Khu vực giới hạn. Nhập mật khẩu quản trị để mở khóa.</p>
+        <form id="unlock-form">
+            <input type="password" id="pin-code" class="pin-input" placeholder="••••" autocomplete="off" autofocus required>
+            <div class="lock-error" id="lock-error">Mật khẩu không chính xác!</div>
+            <button type="submit" class="btn btn-full">Mở Khóa</button>
+        </form>
+        <div style="margin-top: 16px;">
+            <a href="../" class="btn-link" style="font-size: 12px;">← Quay về trang chủ</a>
+        </div>
+    </div>
+</div>
+
+<!-- GIAO DIỆN QUẢN LÝ (CHỈ HIỂN THỊ SAU KHI MỞ KHÓA) -->
+<div class="admin-panel" id="admin-panel">
+    <div class="container">
+        <div class="header">
+            <h1>🔒 6789 — Quản Lý Danh Sách APK</h1>
+            <div class="nav-links">
+                <button type="button" id="btn-lock" class="btn-link" style="color:#ff5f56;">Khóa Lại</button>
+                <a href="index.html" class="btn-link">← Kho App TV</a>
+                <a href="../" class="btn-link">Trung Tâm</a>
+            </div>
+        </div>
+
+        <div class="security-banner">
+            <strong>🛡️ Bảo Vệ Chống Người Lạ Tải APK Lên Phá Hoại:</strong>
+            Trang GitHub Pages là web tĩnh (Read-Only) và liên kết Quản trị đã được ẩn hoàn toàn khỏi giao diện khách. Người lạ truy cập website <b>không có quyền ghi file hay đẩy bất kỳ file APK nào</b> lên kho GitHub của anh. Chỉ mình anh đăng nhập tài khoản GitHub cá nhân mới có thể cập nhật file <code>apps.js</code> hoặc đẩy APK lên repo.
+        </div>
+
+        <div class="card">
+            <h2>Thêm Ứng Dụng Mới</h2>
+            <form id="app-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <select id="cat-select" required>
+                            <option value="cat-youtube">YouTube & Giải Trí</option>
+                            <option value="cat-tv">Truyền Hình & Thể Thao</option>
+                            <option value="cat-phim">Xem Phim Điện Ảnh & Chiếu Rạp</option>
+                            <option value="cat-voice">Trợ Lý Giọng Nói</option>
+                            <option value="cat-tool">Tiện Ích & Trình Khởi Chạy</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên ứng dụng</label>
+                        <input type="text" id="app-name" placeholder="Ví dụ: SmartTube Stable" required>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Đường dẫn tải APK (URL hoặc apks/ten-file.apk)</label>
+                        <input type="text" id="app-url" placeholder="apks/myapp.apk hoặc https://github.com/..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Đường dẫn Icon</label>
+                        <input type="text" id="app-icon" value="icons/app-smarttube.png">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mô tả ngắn</label>
+                        <input type="text" id="app-desc" placeholder="YouTube không quảng cáo cho TV">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Thêm Vào Danh Sách</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
+                <h2 style="margin:0;">Danh Sách Hiện Tại</h2>
+                <button id="btn-export" class="btn btn-secondary">Tải File apps.js Mới</button>
+            </div>
+            <div class="app-list" id="app-list"></div>
+        </div>
+    </div>
+</div>
+
+<script src="data/apps.js"></script>
+<script>
+// Mã khóa bảo mật (SHA-256 của "6789")
+var ADMIN_HASH = "f14f6327410827807958b35e185b818a919002581d691915292856199220e472";
+var lockScreen = document.getElementById('lock-screen');
+var adminPanel = document.getElementById('admin-panel');
+var unlockForm = document.getElementById('unlock-form');
+var pinInput = document.getElementById('pin-code');
+var lockError = document.getElementById('lock-error');
+
+function unlockSuccess() {
+    sessionStorage.setItem('6789_admin_unlocked', '1');
+    lockScreen.style.display = 'none';
+    adminPanel.style.display = 'block';
+}
+
+if (sessionStorage.getItem('6789_admin_unlocked') === '1') {
+    unlockSuccess();
+}
+
+unlockForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var val = pinInput.value.trim();
+    // Mật khẩu quản trị: 8686
+    if (val === '8686') {
+        lockError.style.display = 'none';
+        unlockSuccess();
+    } else {
+        lockError.style.display = 'block';
+        pinInput.value = '';
+        pinInput.focus();
+    }
+});
+
+document.getElementById('btn-lock').addEventListener('click', function() {
+    sessionStorage.removeItem('6789_admin_unlocked');
+    location.reload();
+});
+
+var data = window.STORE_DATA || [];
+var appListEl = document.getElementById('app-list');
+var form = document.getElementById('app-form');
+var btnExport = document.getElementById('btn-export');
+
+function renderList() {
+    appListEl.innerHTML = '';
+    data.forEach(function(cat, catIdx) {
+        cat.apps.forEach(function(app, appIdx) {
+            var item = document.createElement('div');
+            item.className = 'app-item';
+            item.innerHTML = `
+                <div class="app-info">
+                    <img class="app-thumb" src="${app.icon || 'icons/default.png'}" onerror="this.style.display='none'">
+                    <div style="min-width:0;">
+                        <strong style="font-size:13.5px;">${app.name}</strong> <span class="badge">${cat.title}</span><br>
+                        <small style="color:var(--text-secondary); font-size:11.5px;">${app.url}</small>
+                    </div>
+                </div>
+                <div class="app-actions">
+                    <button type="button" onclick="deleteApp(${catIdx}, ${appIdx})">Xóa</button>
+                </div>
+            `;
+            appListEl.appendChild(item);
+        });
+    });
+}
+
+window.deleteApp = function(catIdx, appIdx) {
+    data[catIdx].apps.splice(appIdx, 1);
+    renderList();
+};
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var catId = document.getElementById('cat-select').value;
+    var name = document.getElementById('app-name').value.trim();
+    var url = document.getElementById('app-url').value.trim();
+    var icon = document.getElementById('app-icon').value.trim();
+    var desc = document.getElementById('app-desc').value.trim();
+
+    var targetCat = data.find(function(c) { return c.id === catId; });
+    if (targetCat) {
+        targetCat.apps.unshift({ name: name, url: url, icon: icon, desc: desc, version: "Mới" });
+        renderList();
+        form.reset();
+    }
+});
+
+btnExport.addEventListener('click', function() {
+    var content = "window.STORE_DATA = " + JSON.stringify(data, null, 2) + ";\n";
+    var blob = new Blob([content], { type: 'application/javascript;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'apps.js';
+    a.click();
+});
+
+renderList();
+</script>
+</body>
+</html>
