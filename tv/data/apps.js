@@ -2,13 +2,6 @@ window.STORE_DATA = [
   {
     "apps": [
       {
-        "name": "tvOS Launcher v2.2.5 Vi",
-        "url": "https://raw.githubusercontent.com/bykrid/app/main/tv/apks/tvOS-Launcher-v2.2.5-Vi.apk",
-        "icon": "https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png",
-        "version": "Mới",
-        "desc": ""
-      },
-      {
         "icon": "../Apps/newpipe/app_icon.png",
         "url": "https://github.com/bykrid/app/releases/download/khoapp-tv/NewPipe_v0.29.3.apk",
         "name": "NewPipe (YouTube Nhẹ Mã Nguồn Mở)",
@@ -382,6 +375,14 @@ window.STORE_DATA = [
   },
   {
     "apps": [
+      {
+        "name": "tvOS Launcher v2.2.5 Vi",
+        "url": "https://raw.githubusercontent.com/bykrid/app/main/tv/apks/tvOS-Launcher-v2.2.5-Vi.apk",
+        "icon": "https://github.com/bykrid/app/blob/main/tv/icons/tvos.jpg",
+        "version": "Mới",
+        "desc": "",
+        "hidden": false
+      },
       {
         "name": "tvOS-Launcher-v2.2.5-Vi",
         "url": "https://github.com/bykrid/app/releases/download/khoapp-tv/tvOS-Launcher-v2.2.5-Vi.apk",
