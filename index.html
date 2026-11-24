@@ -360,15 +360,41 @@ body {
 @media (max-width: 720px) {
     .menubar { padding: 0 12px; font-size: 12px; }
     .menubar-left { gap: 12px; }
-    .stage { padding: 24px 12px; }
-    .header-block { margin-bottom: 20px; }
+    .stage { padding: 12px 12px; justify-content: flex-start; }
+    .header-block { margin-bottom: 10px; }
+    .header-block h1 { font-size: 1.45rem; margin-bottom: 0; }
+    .panel-bar { height: 32px; padding: 0 12px; }
     .panel-grid {
         grid-template-columns: 1fr;
     }
     .workspace-card {
-        padding: 22px 18px;
+        padding: 14px 16px;
     }
-    .icon-box { width: 56px; height: 56px; margin-bottom: 16px; }
+    .card-top { margin-bottom: 10px; }
+    .icon-box { width: 44px; height: 44px; border-radius: 11px; margin-bottom: 8px; }
+    .icon-box svg { width: 26px; height: 26px; }
+    .card-title { font-size: 1.15rem; margin-bottom: 4px; }
+    .card-desc { font-size: 12.5px; line-height: 1.4; }
+    .spec-list { margin: 10px 0 12px; padding-top: 8px; gap: 4px; font-size: 12px; }
+    .action-bar { padding: 8px 14px; font-size: 12.5px; }
+    .bottom-bar { padding: 0 12px 12px; }
+}
+
+/* Tối ưu cho màn hình TV 16:9 chiều cao thấp (960x540 & 1280x720) để không bị che nút dưới */
+@media (min-width: 721px) and (max-height: 760px) {
+    .stage { padding: 14px 20px; }
+    .header-block { margin-bottom: 14px; }
+    .header-block h1 { font-size: 1.75rem; margin-bottom: 0; }
+    .panel-bar { height: 34px; }
+    .workspace-card { padding: 20px 24px; }
+    .card-top { margin-bottom: 14px; }
+    .icon-box { width: 48px; height: 48px; border-radius: 12px; margin-bottom: 12px; }
+    .icon-box svg { width: 28px; height: 28px; }
+    .card-title { font-size: 1.25rem; margin-bottom: 6px; }
+    .card-desc { font-size: 13px; line-height: 1.45; }
+    .spec-list { margin: 12px 0 16px; padding-top: 12px; gap: 6px; font-size: 12.5px; }
+    .action-bar { padding: 8px 14px; font-size: 13px; }
+    .bottom-bar { padding: 0 20px 10px; }
 }
 
 @media (min-width: 1600px) {
