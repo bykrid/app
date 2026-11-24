@@ -1,3 +1,11 @@
+﻿/**
+ * ----------------------------------------------------------------------------
+ * Project: 6789 FRP Bypass & Mobile Tools
+ * Author: 6789
+ * Repository: https://github.com/bykrid/app
+ * Copyright (c) 2026 6789. All rights reserved.
+ * ----------------------------------------------------------------------------
+ */
 window.FRP_DATA = [
   {
     "id": "sec-intent",

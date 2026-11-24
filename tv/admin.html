@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>6789 — Quản Lý & Upload Trực Tiếp APK</title>
+<title>6789 — Quản Lý Kho App TV & GitHub Releases</title>
 <style>
 :root {
     --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", sans-serif;
@@ -16,6 +16,7 @@
     --mac-blue: #0071e3;
     --mac-green: #30d158;
     --mac-red: #ff5f56;
+    --mac-yellow: #ffbd2e;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -40,7 +41,6 @@ body {
     justify-content: center;
     padding: 20px;
 }
-
 .lock-card {
     width: 100%;
     max-width: 360px;
@@ -51,67 +51,30 @@ body {
     text-align: center;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
 }
-
 .avatar-lock {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: #2c2c2e;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    display: grid;
-    place-items: center;
-    margin: 0 auto 14px;
-    color: var(--text-primary);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #2c2c2e; border: 1px solid rgba(255, 255, 255, 0.14);
+    display: grid; place-items: center; margin: 0 auto 14px;
+    color: var(--text-primary); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
-
-.lock-card h2 {
-    font-size: 1.15rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.lock-card p {
-    font-size: 12.5px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-}
-
+.lock-card h2 { font-size: 1.15rem; font-weight: 600; margin-bottom: 4px; }
+.lock-card p { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 20px; }
 .pin-input {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 9px;
+    width: 100%; padding: 10px 14px; border-radius: 9px;
     border: 0.5px solid rgba(255, 255, 255, 0.15);
-    background: #141416;
-    color: #fff;
-    font-size: 15px;
-    text-align: center;
-    letter-spacing: 3px;
-    outline: none;
-    margin-bottom: 12px;
+    background: #141416; color: #fff; font-size: 15px;
+    text-align: center; letter-spacing: 3px; outline: none; margin-bottom: 12px;
 }
-.pin-input:focus {
-    border-color: var(--mac-blue);
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.25);
-}
-
-.lock-error {
-    color: var(--mac-red);
-    font-size: 12px;
-    margin-bottom: 10px;
-    display: none;
-}
+.pin-input:focus { border-color: var(--mac-blue); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.25); }
+.lock-error { color: var(--mac-red); font-size: 12px; margin-bottom: 10px; display: none; }
 
 /* ================= Admin Main Panel ================= */
-.admin-panel {
-    display: none;
-    padding: 32px 20px 60px;
-}
-.container { max-width: 860px; margin: 0 auto; }
+.admin-panel { display: none; padding: 32px 20px 60px; }
+.container { max-width: 880px; margin: 0 auto; }
 .header {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     border-bottom: 0.5px solid var(--border-hairline);
-    padding-bottom: 16px; margin-bottom: 24px;
+    padding-bottom: 16px; margin-bottom: 22px;
 }
 .header h1 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
 .nav-links { display: flex; gap: 14px; align-items: center; }
@@ -130,19 +93,12 @@ body {
     margin-bottom: 22px;
 }
 .mode-tab {
-    padding: 7px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: all 0.15s;
+    padding: 7px 18px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); text-decoration: none; transition: all 0.15s;
 }
 .mode-tab:hover { color: var(--text-primary); }
 .mode-tab.active {
-    background: #2c2c2e;
-    color: var(--text-primary);
-    font-weight: 600;
+    background: #2c2c2e; color: var(--text-primary); font-weight: 600;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
@@ -150,64 +106,70 @@ body {
     background: var(--bg-window);
     border: 0.5px solid var(--border-hairline);
     border-radius: 14px;
-    padding: 22px 24px;
+    padding: 22px;
     margin-bottom: 20px;
 }
 .card h2 {
-    font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text-primary);
+    font-size: 1.05rem; font-weight: 600; margin-bottom: 16px;
     display: flex; align-items: center; justify-content: space-between;
 }
-.form-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
-}
-.form-group { margin-bottom: 12px; }
-.form-group.full { grid-column: 1 / -1; }
-label {
-    display: block; margin-bottom: 6px; font-weight: 500; font-size: 12.5px; color: var(--text-secondary);
-}
-input[type="text"], input[type="password"], select {
-    width: 100%; padding: 9px 12px; border-radius: 8px;
-    border: 0.5px solid var(--border-hairline);
-    background: var(--bg-card); color: var(--text-primary);
-    font-family: inherit; font-size: 13.5px; outline: none;
-}
-input:focus, select:focus { border-color: var(--mac-blue); }
 
-/* Drag & Drop File Upload Box */
+.form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 12.5px; color: var(--text-secondary); font-weight: 500; }
+.form-group input, .form-group select {
+    background: #161618;
+    border: 0.5px solid var(--border-hairline);
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--mac-blue);
+}
+
 .upload-grid {
-    display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
 }
 .drop-box {
-    position: relative;
-    border: 1.5px dashed rgba(255, 255, 255, 0.16);
-    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.02);
-    padding: 18px 14px;
+    border-radius: 10px;
+    padding: 16px;
     text-align: center;
     cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s;
 }
-.drop-box:hover, .drop-box.dragover {
+.drop-box:hover {
     border-color: var(--mac-blue);
-    background: rgba(0, 113, 227, 0.08);
+    background: rgba(0, 113, 227, 0.05);
 }
 .drop-box input[type="file"] {
     position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
 }
-.drop-title {
-    font-weight: 600; font-size: 13.5px; margin-bottom: 4px; color: var(--text-primary);
+.drop-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.drop-sub { font-size: 12px; color: var(--text-secondary); word-break: break-all; }
+
+.check-release-wrap {
+    display: flex; align-items: center; gap: 8px; margin: 12px 0 16px;
+    background: rgba(48, 209, 88, 0.08); border: 0.5px solid rgba(48, 209, 88, 0.25);
+    padding: 10px 14px; border-radius: 8px; font-size: 13px;
 }
-.drop-sub {
-    font-size: 12px; color: var(--text-secondary); word-break: break-all;
+.check-release-wrap input[type="checkbox"] {
+    width: 16px; height: 16px; cursor: pointer; accent-color: var(--mac-green);
 }
 
 .progress-wrap {
-    display: none;
-    margin: 14px 0;
-    background: var(--bg-card);
-    border-radius: 8px;
-    padding: 12px 14px;
-    border: 0.5px solid var(--border-hairline);
+    display: none; margin: 14px 0; background: var(--bg-card);
+    border-radius: 8px; padding: 12px 14px; border: 0.5px solid var(--border-hairline);
 }
 .progress-bar-bg {
     height: 6px; background: #141416; border-radius: 99px; overflow: hidden; margin-top: 8px;
@@ -217,9 +179,9 @@ input:focus, select:focus { border-color: var(--mac-blue); }
 }
 
 .btn {
-    background: var(--mac-blue);
-    color: #fff; border: 0; padding: 9px 18px; font-weight: 500; border-radius: 8px;
-    cursor: pointer; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: var(--mac-blue); color: #fff; border: 0; padding: 9px 18px; font-weight: 500;
+    border-radius: 8px; cursor: pointer; font-size: 13px; display: inline-flex; align-items: center;
+    justify-content: center; gap: 6px; transition: opacity 0.15s, background 0.15s;
 }
 .btn:hover { opacity: 0.92; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -227,37 +189,67 @@ input:focus, select:focus { border-color: var(--mac-blue); }
 .btn-secondary {
     background: #2c2c2e; border: 0.5px solid rgba(255,255,255,0.12); color: var(--text-primary);
 }
-.btn-green {
-    background: #248a3d; color: #fff;
-}
+.btn-secondary:hover { background: #38383a; }
+.btn-green { background: #248a3d; color: #fff; }
+.btn-green:hover { background: #2ea043; }
+.btn-yellow { background: #946c00; color: #fff; }
+.btn-yellow:hover { background: #b08204; }
 
-.app-list { display: grid; gap: 8px; }
+.app-list { display: grid; gap: 8px; max-height: 600px; overflow-y: auto; padding-right: 4px; }
 .app-item {
     display: flex; align-items: center; justify-content: space-between;
     background: var(--bg-card); border: 0.5px solid var(--border-hairline);
-    padding: 10px 14px; border-radius: 10px;
+    padding: 10px 14px; border-radius: 10px; transition: background 0.15s;
 }
-.app-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.app-thumb { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: #141416; }
-.app-actions button {
-    background: transparent; border: 0.5px solid rgba(255, 95, 86, 0.35); color: #ff5f56;
-    border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px;
+.app-item.is-hidden {
+    opacity: 0.55; border-color: rgba(255, 189, 46, 0.25); background: rgba(36, 36, 38, 0.6);
 }
-.app-actions button:hover { background: rgba(255, 95, 86, 0.12); }
+.app-info { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+.app-thumb { width: 38px; height: 38px; border-radius: 8px; object-fit: contain; background: #141416; flex-shrink: 0; }
 .badge {
     display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 11px;
     background: rgba(255, 255, 255, 0.06); color: var(--text-secondary); margin-left: 6px;
+}
+.badge-hidden {
+    display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 11px;
+    background: rgba(255, 189, 46, 0.18); color: var(--mac-yellow); font-weight: 600; margin-left: 6px;
+    border: 0.5px solid rgba(255, 189, 46, 0.35);
 }
 .status-tag {
     font-size: 11.5px; font-weight: 500; padding: 3px 9px; border-radius: 99px;
     background: rgba(255, 255, 255, 0.06); color: var(--text-secondary);
 }
-.status-tag.connected {
-    background: rgba(48, 209, 88, 0.15); color: #30d158;
+.status-tag.connected { background: rgba(48, 209, 88, 0.15); color: #30d158; }
+
+.app-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: 12px; }
+.btn-action-edit {
+    background: transparent; border: 0.5px solid rgba(0, 113, 227, 0.4); color: var(--mac-blue);
+    border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px;
 }
+.btn-action-edit:hover { background: rgba(0, 113, 227, 0.15); }
+.btn-action-hide {
+    background: transparent; border: 0.5px solid rgba(255, 189, 46, 0.4); color: var(--mac-yellow);
+    border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px;
+}
+.btn-action-hide:hover { background: rgba(255, 189, 46, 0.15); }
+.btn-action-del {
+    background: transparent; border: 0.5px solid rgba(255, 95, 86, 0.35); color: #ff5f56;
+    border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px;
+}
+.btn-action-del:hover { background: rgba(255, 95, 86, 0.15); }
+
+.search-box-admin {
+    width: 100%; padding: 8px 12px; border-radius: 8px; background: #161618;
+    border: 0.5px solid var(--border-hairline); color: #fff; font-size: 13px;
+    margin-bottom: 12px; outline: none;
+}
+.search-box-admin:focus { border-color: var(--mac-blue); }
 
 @media (max-width: 640px) {
     .form-grid, .upload-grid { grid-template-columns: 1fr; }
+    .header { flex-direction: column; align-items: flex-start; }
+    .app-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .app-actions { margin-left: 0; width: 100%; justify-content: flex-end; }
 }
 </style>
 </head>
@@ -280,7 +272,7 @@ input:focus, select:focus { border-color: var(--mac-blue); }
             <button type="submit" class="btn btn-full">Mở Khóa</button>
         </form>
         <div style="margin-top: 16px;">
-            <a href="../" class="btn-link" style="font-size: 12px;">← Quay về trang chủ</a>
+            <a href="index.html" class="btn-link" style="font-size: 12px;">← Quay về Kho App TV</a>
         </div>
     </div>
 </div>
@@ -289,10 +281,10 @@ input:focus, select:focus { border-color: var(--mac-blue); }
 <div class="admin-panel" id="admin-panel">
     <div class="container">
         <div class="header">
-            <h1>6789 — Quản Trị Hệ Thống</h1>
+            <h1>📺 Quản Lý Kho App TV & GitHub Releases</h1>
             <div class="nav-links">
                 <button type="button" id="btn-lock" class="btn-link" style="color:#ff5f56;">Khóa Lại</button>
-                <a href="index.html" class="btn-link">← Kho App TV</a>
+                <a href="index.html" class="btn-link">← Xem Trang TV</a>
                 <a href="../" class="btn-link">Trung Tâm</a>
             </div>
         </div>
@@ -306,12 +298,12 @@ input:focus, select:focus { border-color: var(--mac-blue); }
         <!-- Cấu hình kết nối GitHub để đẩy file trực tiếp từ trình duyệt -->
         <div class="card">
             <h2>
-                <span>⚡ Kết Nối GitHub (Tải File Trực Tiếp Lên Web)</span>
+                <span>⚡ Kết Nối GitHub (Kho Chứa Releases & apps.js)</span>
                 <span id="gh-status" class="status-tag">Chưa lưu Token</span>
             </h2>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>GitHub Repository (Tài khoản/Tên repo)</label>
+                    <label>GitHub Repository (Tài khoản/Tên repo của anh)</label>
                     <input type="text" id="gh-repo" value="bykrid/app" placeholder="bykrid/app">
                 </div>
                 <div class="form-group">
@@ -324,15 +316,15 @@ input:focus, select:focus { border-color: var(--mac-blue); }
             </div>
         </div>
 
-        <!-- Khung Tải File APK & Icon Trực Tiếp -->
-        <div class="card">
-            <h2>➕ Thêm Ứng Dụng / File APK / Đường Link Mới Vào Kho App TV</h2>
+        <!-- Khung Thêm / Sửa Ứng Dụng -->
+        <div class="card" id="form-card">
+            <h2 id="form-card-title">➕ Thêm Ứng Dụng / Gói APK / Đường Link Mới</h2>
             <form id="app-form">
                 <div class="upload-grid">
                     <div class="drop-box" id="apk-drop">
                         <input type="file" id="apk-file" accept=".apk">
                         <div class="drop-title">📦 Kéo-thả hoặc chọn file .APK từ máy tính</div>
-                        <div class="drop-sub" id="apk-filename">Hoặc để trống nếu bạn muốn dán đường link tải bên dưới</div>
+                        <div class="drop-sub" id="apk-filename">Hỗ trợ tải trực tiếp lên GitHub Releases của anh</div>
                     </div>
 
                     <div class="drop-box" id="icon-drop">
@@ -340,6 +332,13 @@ input:focus, select:focus { border-color: var(--mac-blue); }
                         <div class="drop-title">🖼️ Kéo-thả hoặc chọn ảnh Icon từ máy</div>
                         <div class="drop-sub" id="icon-filename">PNG / JPG / WEBP (Hoặc dán link ảnh bên dưới)</div>
                     </div>
+                </div>
+
+                <div class="check-release-wrap">
+                    <input type="checkbox" id="chk-use-release" checked>
+                    <label for="chk-use-release" style="cursor:pointer;">
+                        <strong>📦 Lưu file APK vào GitHub Releases (Tag: <code>khoapp-tv</code>)</strong> — Giữ thư mục mã nguồn git hoàn toàn sạch sẽ, không giới hạn 100MB, tốc độ tải CDN cực nhanh (Kho riêng cho Android TV).
+                    </label>
                 </div>
 
                 <div class="form-grid">
@@ -360,18 +359,23 @@ input:focus, select:focus { border-color: var(--mac-blue); }
                     </div>
 
                     <div class="form-group full">
-                        <label>🔗 Đường Link Mới / Đường dẫn File APK</label>
-                        <input type="text" id="app-url" placeholder="Ví dụ: apks/ten-file.apk hoặc https://github.com/.../app.apk" required>
+                        <label>🔗 Đường Link Tải APK (Tự động điền link Release của anh khi upload file)</label>
+                        <input type="text" id="app-url" placeholder="https://github.com/bykrid/app/releases/download/khoapp-tv/ten-app.apk" required>
                     </div>
 
                     <div class="form-group">
-                        <label>🎨 Đường dẫn Icon hoặc Link ảnh Icon</label>
-                        <input type="text" id="app-icon" value="icons/app-smarttube.png" placeholder="icons/ten-anh.png hoặc https://...">
+                        <label>🎨 Đường dẫn Icon hoặc Link ảnh</label>
+                        <input type="text" id="app-icon" value="https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png" placeholder="icons/ten-anh.png hoặc https://...">
                     </div>
 
                     <div class="form-group">
+                        <label>Phiên bản (Version)</label>
+                        <input type="text" id="app-version" placeholder="Ví dụ: v2.1 hoặc Mới Nhất">
+                    </div>
+
+                    <div class="form-group full">
                         <label>Mô tả ngắn</label>
-                        <input type="text" id="app-desc" placeholder="Ví dụ: Phiên bản tối ưu cho Android TV">
+                        <input type="text" id="app-desc" placeholder="Ví dụ: Phiên bản tối ưu cho Android TV, không quảng cáo">
                     </div>
                 </div>
 
@@ -385,20 +389,29 @@ input:focus, select:focus { border-color: var(--mac-blue); }
                     </div>
                 </div>
 
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button type="submit" id="btn-submit" class="btn">🚀 Tải Lên & Cập Nhật Kho App</button>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+                    <button type="submit" id="btn-submit" class="btn">🚀 Lưu Ứng Dụng & Cập Nhật Kho</button>
+                    <button type="button" id="btn-cancel-edit" class="btn btn-secondary" style="display:none;">Hủy Sửa</button>
                 </div>
             </form>
         </div>
 
+        <!-- Quản Lý Danh Sách & Hành Động -->
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px; flex-wrap:wrap; gap:10px;">
-                <h2 style="margin:0;">Danh Sách Ứng Dụng Hiện Tại</h2>
-                <div style="display:flex; gap:8px;">
-                    <button id="btn-sync-gh" class="btn btn-green">☁️ Đồng Bộ Danh Sách Lên GitHub</button>
+                <h2 style="margin:0;">
+                    <span>Danh Sách Ứng Dụng Hiện Có (<span id="total-app-count">0</span>)</span>
+                </h2>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button id="btn-switch-links-gh" class="btn btn-yellow" title="Chuyển toàn bộ link tải sang GitHub Releases của anh">🔄 Chuyển Tất Cả Link Sang bykrid/app</button>
+                    <button id="btn-sync-gh" class="btn btn-green">☁️ Đồng Bộ apps.js Lên GitHub</button>
+                    <button id="btn-reset-cache" class="btn btn-secondary" title="Nạp lại dữ liệu mới nhất từ file apps.js">🔄 Nạp Lại apps.js</button>
                     <button id="btn-export" class="btn btn-secondary">Tải apps.js</button>
                 </div>
             </div>
+
+            <input type="text" id="admin-search" class="search-box-admin" placeholder="🔍 Tìm nhanh ứng dụng trong danh sách quản trị...">
+
             <div class="app-list" id="app-list"></div>
         </div>
     </div>
@@ -440,7 +453,7 @@ document.getElementById('btn-lock').addEventListener('click', function() {
     location.reload();
 });
 
-// ================= CẤU HÌNH KẾT NỐI GITHUB =================
+// ================= CẤU HÌNH GITHUB =================
 var ghRepoInput = document.getElementById('gh-repo');
 var ghTokenInput = document.getElementById('gh-token');
 var ghStatus = document.getElementById('gh-status');
@@ -464,23 +477,71 @@ document.getElementById('btn-save-gh').addEventListener('click', function() {
     localStorage.setItem('6789_gh_repo', ghRepoInput.value.trim());
     localStorage.setItem('6789_gh_token', ghTokenInput.value.trim());
     loadGhConfig();
+    alert('Đã lưu thông tin kết nối GitHub trên trình duyệt!');
 });
 
-// ================= XỬ LÝ CHỌN FILE TRỰC TIẾP =================
+// ================= FORM VÀ CHỌN FILE =================
+function getAdminData() {
+    var rawStore = window.STORE_DATA ? JSON.parse(JSON.stringify(window.STORE_DATA)) : [];
+    var savedStore = localStorage.getItem('6789_store_data');
+    if (!savedStore) return rawStore;
+    try {
+        var local = JSON.parse(savedStore);
+        var localMap = {};
+        local.forEach(function (cat) {
+            (cat.apps || []).forEach(function (a) {
+                localMap[a.name] = a;
+            });
+        });
+        rawStore.forEach(function (cat) {
+            cat.apps.forEach(function (a) {
+                var localApp = localMap[a.name];
+                if (localApp) {
+                    if (localApp.hidden !== undefined) a.hidden = localApp.hidden;
+                }
+            });
+        });
+        return rawStore;
+    } catch (e) {
+        return rawStore;
+    }
+}
+var data = getAdminData();
+
+function saveDataLocally() {
+    localStorage.setItem('6789_store_data', JSON.stringify(data));
+}
+
 var apkFileInput = document.getElementById('apk-file');
 var iconFileInput = document.getElementById('icon-file');
 var appNameInput = document.getElementById('app-name');
 var appUrlInput = document.getElementById('app-url');
 var appIconInput = document.getElementById('app-icon');
+var appVersionInput = document.getElementById('app-version');
+var appDescInput = document.getElementById('app-desc');
+var catSelect = document.getElementById('cat-select');
+var chkUseRelease = document.getElementById('chk-use-release');
+var form = document.getElementById('app-form');
+var btnSubmit = document.getElementById('btn-submit');
+var btnCancelEdit = document.getElementById('btn-cancel-edit');
+var formCardTitle = document.getElementById('form-card-title');
+
+var editState = null; // { catIdx, appIdx } khi ở chế độ sửa
 
 apkFileInput.addEventListener('change', function() {
     if (apkFileInput.files.length > 0) {
         var f = apkFileInput.files[0];
         var cleanName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-        document.getElementById('apk-filename').textContent = '✓ Đã chọn: ' + f.name + ' (' + (f.size / 1024 / 1024).toFixed(1) + ' MB)';
-        appUrlInput.value = 'apks/' + cleanName;
+        document.getElementById('apk-filename').textContent = '✓ ' + f.name + ' (' + (f.size / 1024 / 1024).toFixed(1) + ' MB)';
+        
+        var repo = ghRepoInput.value.trim() || 'bykrid/app';
+        if (chkUseRelease.checked) {
+            appUrlInput.value = 'https://github.com/' + repo + '/releases/download/khoapp-tv/' + cleanName;
+        } else {
+            appUrlInput.value = 'tv/apks/' + cleanName;
+        }
         if (!appNameInput.value) {
-            appNameInput.value = f.name.replace(/\.apk$/i, '');
+            appNameInput.value = f.name.replace(/\.apk$/i, '').replace(/[-_]/g, ' ');
         }
     }
 });
@@ -489,60 +550,10 @@ iconFileInput.addEventListener('change', function() {
     if (iconFileInput.files.length > 0) {
         var f = iconFileInput.files[0];
         var cleanName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-        document.getElementById('icon-filename').textContent = '✓ Đã chọn: ' + f.name;
-        appIconInput.value = 'icons/' + cleanName;
+        document.getElementById('icon-filename').textContent = '✓ ' + f.name;
+        appIconInput.value = 'tv/icons/' + cleanName;
     }
 });
-
-// Chuyển File sang Base64 để đẩy thẳng lên GitHub API
-function fileToBase64(file) {
-    return new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var base64 = reader.result.split(',')[1];
-            resolve(base64);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-}
-
-async function githubUploadFile(repo, token, pathInRepo, base64Content, commitMsg) {
-    var apiUrl = 'https://api.github.com/repos/' + repo + '/contents/' + pathInRepo;
-    var headers = {
-        'Authorization': 'Bearer ' + token,
-        'Accept': 'application/vnd.github+json',
-        'Content-Type': 'application/json'
-    };
-
-    // Kiểm tra SHA nếu file đã tồn tại
-    var sha = null;
-    try {
-        var checkRes = await fetch(apiUrl, { headers: headers });
-        if (checkRes.ok) {
-            var checkData = await checkRes.json();
-            sha = checkData.sha;
-        }
-    } catch (e) {}
-
-    var bodyObj = {
-        message: commitMsg,
-        content: base64Content
-    };
-    if (sha) bodyObj.sha = sha;
-
-    var res = await fetch(apiUrl, {
-        method: 'PUT',
-        headers: headers,
-        body: JSON.stringify(bodyObj)
-    });
-
-    if (!res.ok) {
-        var err = await res.json().catch(function() { return {}; });
-        throw new Error(err.message || ('Lỗi GitHub HTTP ' + res.status));
-    }
-    return await res.json();
-}
 
 function setProgress(show, text, pct) {
     var wrap = document.getElementById('progress-wrap');
@@ -554,97 +565,323 @@ function setProgress(show, text, pct) {
     }
 }
 
-// ================= QUẢN LÝ DANH SÁCH & ĐỒNG BỘ =================
-var data = window.STORE_DATA || [];
+function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var b64 = reader.result.split(',')[1];
+            resolve(b64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// Upload file vào Git Contents API (dành cho file code / icon nhỏ)
+async function githubUploadFile(repo, token, pathInRepo, base64Content, commitMsg) {
+    var apiUrl = 'https://api.github.com/repos/' + repo + '/contents/' + pathInRepo;
+    var headers = {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+    };
+
+    var sha = null;
+    try {
+        var checkRes = await fetch(apiUrl, { headers: headers });
+        if (checkRes.ok) {
+            var checkData = await checkRes.json();
+            sha = checkData.sha;
+        }
+    } catch (e) {}
+
+    var bodyObj = { message: commitMsg, content: base64Content };
+    if (sha) bodyObj.sha = sha;
+
+    var res = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(bodyObj)
+    });
+    if (!res.ok) {
+        var err = await res.json().catch(function() { return {}; });
+        throw new Error(err.message || ('Lỗi GitHub HTTP ' + res.status));
+    }
+    return await res.json();
+}
+
+// ================= GITHUB RELEASES API (ẨN APK KHỎI SOURCE CODE GIT) =================
+async function getOrCreateRelease(repo, token, tag) {
+    var headers = {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github+json'
+    };
+    var getUrl = 'https://api.github.com/repos/' + repo + '/releases/tags/' + tag;
+    var res = await fetch(getUrl, { headers: headers });
+    if (res.ok) {
+        return await res.json();
+    }
+    // Nếu chưa có, tạo mới
+    var createUrl = 'https://api.github.com/repos/' + repo + '/releases';
+    var createRes = await fetch(createUrl, {
+        method: 'POST',
+        headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }),
+        body: JSON.stringify({
+            tag_name: tag,
+            name: 'Kho Ứng Dụng TV 6789 (Tag: ' + tag + ')',
+            body: 'Kho chứa các gói cài đặt APK cho Android TV 6789. Tải trực tiếp qua CDN GitHub tốc độ cao.',
+            draft: false,
+            prerelease: false
+        })
+    });
+    if (!createRes.ok) {
+        var err = await createRes.json().catch(function() { return {}; });
+        throw new Error('Không thể tạo Release: ' + (err.message || createRes.status));
+    }
+    return await createRes.json();
+}
+
+async function uploadApkToRelease(repo, token, release, file, cleanName) {
+    var headers = {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github+json'
+    };
+    // Xóa asset cũ nếu trùng tên
+    if (release.assets && release.assets.length > 0) {
+        var existing = release.assets.find(function(a) { return a.name === cleanName; });
+        if (existing) {
+            await fetch('https://api.github.com/repos/' + repo + '/releases/assets/' + existing.id, {
+                method: 'DELETE',
+                headers: headers
+            });
+        }
+    }
+
+    var uploadUrl = release.upload_url.replace(/\{(\?name,label)?\}/, '') + '?name=' + encodeURIComponent(cleanName);
+    var uploadRes = await fetch(uploadUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/vnd.android.package-archive'
+        },
+        body: file
+    });
+    if (!uploadRes.ok) {
+        var err = await uploadRes.json().catch(function() { return {}; });
+        throw new Error('Lỗi tải APK vào Release: ' + (err.message || uploadRes.status));
+    }
+    return await uploadRes.json();
+}
+
+async function syncAppsJsToGitHub(repo, token) {
+    var contentStr = "window.STORE_DATA = " + JSON.stringify(data, null, 2) + ";\n";
+    var base64Apps = btoa(unescape(encodeURIComponent(contentStr)));
+    await githubUploadFile(repo, token, 'tv/data/apps.js', base64Apps, 'Cap nhat danh sach tv/data/apps.js');
+}
+
+// ================= RENDER & TÌM KIẾM DANH SÁCH =================
 var appListEl = document.getElementById('app-list');
-var form = document.getElementById('app-form');
+var adminSearchInput = document.getElementById('admin-search');
+var totalAppCountEl = document.getElementById('total-app-count');
 
 function renderList() {
     appListEl.innerHTML = '';
+    var q = adminSearchInput.value.trim().toLowerCase();
+    var count = 0;
+
     data.forEach(function(cat, catIdx) {
         cat.apps.forEach(function(app, appIdx) {
+            count++;
+            var match = !q || app.name.toLowerCase().includes(q) || (app.desc || '').toLowerCase().includes(q) || app.url.toLowerCase().includes(q);
+            if (!match) return;
+
             var item = document.createElement('div');
-            item.className = 'app-item';
+            item.className = 'app-item' + (app.hidden ? ' is-hidden' : '');
+            
+            var hiddenBadge = app.hidden ? '<span class="badge-hidden">ĐANG ẨN</span>' : '';
+            var hideBtnText = app.hidden ? '👁️ Hiện' : '👁️ Ẩn';
+            var hideBtnTitle = app.hidden ? 'Bật hiện app này trên giao diện khách' : 'Ẩn app này khỏi giao diện khách';
+
             item.innerHTML = `
                 <div class="app-info">
-                    <img class="app-thumb" src="${app.icon || 'icons/default.png'}" onerror="this.style.display='none'">
+                    <img class="app-thumb" src="${app.icon || 'icons/default.png'}" onerror="this.src='https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png'">
                     <div style="min-width:0;">
-                        <strong style="font-size:13.5px;">${app.name}</strong> <span class="badge">${cat.title}</span><br>
-                        <small style="color:var(--text-secondary); font-size:11.5px;">${app.url}</small>
+                        <strong style="font-size:13.5px;">${app.name}</strong> 
+                        <span class="badge">${cat.title}</span>
+                        ${hiddenBadge}
+                        <br>
+                        <small style="color:var(--text-secondary); font-size:11.5px; word-break:break-all;">${app.url}</small>
                     </div>
                 </div>
                 <div class="app-actions">
-                    <button type="button" onclick="deleteApp(${catIdx}, ${appIdx})">Xóa</button>
+                    <button type="button" class="btn-action-hide" title="${hideBtnTitle}" onclick="toggleHideApp(${catIdx}, ${appIdx})">${hideBtnText}</button>
+                    <button type="button" class="btn-action-edit" onclick="startEditApp(${catIdx}, ${appIdx})">✏️ Sửa</button>
+                    <button type="button" class="btn-action-del" onclick="deleteApp(${catIdx}, ${appIdx})">🗑️ Xóa</button>
                 </div>
             `;
             appListEl.appendChild(item);
         });
     });
+
+    totalAppCountEl.textContent = count;
 }
 
-window.deleteApp = function(catIdx, appIdx) {
-    data[catIdx].apps.splice(appIdx, 1);
+adminSearchInput.addEventListener('input', renderList);
+
+// ================= HÀNH ĐỘNG: ẨN / HIỆN, SỬA, XÓA =================
+window.toggleHideApp = function(catIdx, appIdx) {
+    var app = data[catIdx].apps[appIdx];
+    app.hidden = !app.hidden;
+    saveDataLocally();
     renderList();
 };
 
-async function syncAppsJsToGitHub(repo, token) {
-    var contentStr = "window.STORE_DATA = " + JSON.stringify(data, null, 2) + ";\n";
-    var base64Apps = btoa(unescape(encodeURIComponent(contentStr)));
-    await githubUploadFile(repo, token, 'tv/data/apps.js', base64Apps, 'Cap nhat danh sach apps.js');
-}
+window.startEditApp = function(catIdx, appIdx) {
+    var app = data[catIdx].apps[appIdx];
+    editState = { catIdx: catIdx, appIdx: appIdx };
 
+    catSelect.value = data[catIdx].id;
+    appNameInput.value = app.name || '';
+    appUrlInput.value = app.url || '';
+    appIconInput.value = app.icon || '';
+    appVersionInput.value = app.version || '';
+    appDescInput.value = app.desc || '';
+
+    formCardTitle.textContent = '✏️ Sửa Ứng Dụng: ' + app.name;
+    btnSubmit.textContent = '💾 Cập Nhật Ứng Dụng';
+    btnCancelEdit.style.display = 'inline-flex';
+
+    document.getElementById('form-card').scrollIntoView({ behavior: 'smooth' });
+};
+
+btnCancelEdit.addEventListener('click', function() {
+    editState = null;
+    form.reset();
+    formCardTitle.textContent = '➕ Thêm Ứng Dụng / Gói APK / Đường Link Mới';
+    btnSubmit.textContent = '🚀 Lưu Ứng Dụng & Cập Nhật Kho';
+    btnCancelEdit.style.display = 'none';
+});
+
+window.deleteApp = function(catIdx, appIdx) {
+    var app = data[catIdx].apps[appIdx];
+    if (confirm('Anh có chắc muốn xóa ứng dụng "' + app.name + '" khỏi danh sách không?')) {
+        data[catIdx].apps.splice(appIdx, 1);
+        if (editState && editState.catIdx === catIdx && editState.appIdx === appIdx) {
+            btnCancelEdit.click();
+        }
+        saveDataLocally();
+        renderList();
+    }
+};
+
+// Đổi toàn bộ đường link sang GitHub Releases của anh
+document.getElementById('btn-switch-links-gh').addEventListener('click', function() {
+    var repo = ghRepoInput.value.trim() || 'bykrid/app';
+    if (!confirm('Hệ thống sẽ chuyển toàn bộ đường link tải file .apk trong kho sang kho GitHub Releases của anh:\nhttps://github.com/' + repo + '/releases/download/khoapp-tv/<tên_file>.apk\n\nAnh có muốn tiếp tục không?')) {
+        return;
+    }
+    var changed = 0;
+    data.forEach(function(cat) {
+        cat.apps.forEach(function(app) {
+            if (app.url && app.url.includes('.apk')) {
+                var filename = app.url.split('/').pop().split('?')[0];
+                app.url = 'https://github.com/' + repo + '/releases/download/khoapp-tv/' + filename;
+                changed++;
+            }
+        });
+    });
+    saveDataLocally();
+    renderList();
+    alert('✓ Đã cập nhật xong ' + changed + ' đường link về GitHub Releases (khoapp-tv) của anh!\nHãy bấm "☁️ Đồng Bộ apps.js Lên GitHub" để lưu lại.');
+});
+
+// ================= SUBMIT FORM (THÊM HOẶC CẬP NHẬT) =================
 form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    var catId = document.getElementById('cat-select').value;
+    var catId = catSelect.value;
     var name = appNameInput.value.trim();
     var url = appUrlInput.value.trim();
     var icon = appIconInput.value.trim();
-    var desc = document.getElementById('app-desc').value.trim();
+    var version = appVersionInput.value.trim() || 'Mới';
+    var desc = appDescInput.value.trim();
 
     var repo = ghRepoInput.value.trim();
     var token = ghTokenInput.value.trim();
-    var btnSubmit = document.getElementById('btn-submit');
 
     try {
         btnSubmit.disabled = true;
 
-        // Nếu có chọn file trực tiếp và có GitHub Token thì đẩy thẳng lên GitHub
-        if (token && (apkFileInput.files.length > 0 || iconFileInput.files.length > 0)) {
+        if (token) {
             if (iconFileInput.files.length > 0) {
-                setProgress(true, 'Đang tải Icon lên GitHub...', 25);
+                setProgress(true, 'Đang tải Icon lên GitHub...', 20);
                 var iconFile = iconFileInput.files[0];
                 var iconB64 = await fileToBase64(iconFile);
-                await githubUploadFile(repo, token, 'tv/' + icon, iconB64, 'Upload icon ' + name);
+                var iconPath = icon.startsWith('tv/') ? icon : ('tv/' + icon);
+                await githubUploadFile(repo, token, iconPath, iconB64, 'Upload icon ' + name);
             }
 
             if (apkFileInput.files.length > 0) {
-                setProgress(true, 'Đang tải file APK lên GitHub...', 60);
                 var apkFile = apkFileInput.files[0];
-                var apkB64 = await fileToBase64(apkFile);
-                await githubUploadFile(repo, token, 'tv/' + url, apkB64, 'Upload APK ' + name);
+                var cleanApkName = apkFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+                if (chkUseRelease.checked) {
+                    setProgress(true, 'Đang kiểm tra/tạo Release "khoapp-tv" trên GitHub...', 35);
+                    var release = await getOrCreateRelease(repo, token, 'khoapp-tv');
+
+                    setProgress(true, 'Đang tải APK trực tiếp vào GitHub Releases (khoapp-tv)...', 60);
+                    await uploadApkToRelease(repo, token, release, apkFile, cleanApkName);
+
+                    url = 'https://github.com/' + repo + '/releases/download/khoapp-tv/' + cleanApkName;
+                } else {
+                    setProgress(true, 'Đang tải APK vào thư mục git...', 60);
+                    var apkB64 = await fileToBase64(apkFile);
+                    await githubUploadFile(repo, token, 'tv/apks/' + cleanApkName, apkB64, 'Upload APK ' + name);
+                    url = 'tv/apks/' + cleanApkName;
+                }
             }
         }
 
-        // Thêm vào danh sách
-        var targetCat = data.find(function(c) { return c.id === catId; });
-        if (targetCat) {
-            targetCat.apps.unshift({ name: name, url: url, icon: icon, desc: desc, version: "Mới" });
-            renderList();
+        if (editState) {
+            var oldCat = data[editState.catIdx];
+            var currentApp = oldCat.apps[editState.appIdx];
+            var keepHidden = currentApp.hidden || false;
+
+            if (oldCat.id === catId) {
+                oldCat.apps[editState.appIdx] = {
+                    name: name, url: url, icon: icon, version: version, desc: desc, hidden: keepHidden
+                };
+            } else {
+                oldCat.apps.splice(editState.appIdx, 1);
+                var newCat = data.find(function(c) { return c.id === catId; });
+                if (newCat) newCat.apps.unshift({ name: name, url: url, icon: icon, version: version, desc: desc, hidden: keepHidden });
+            }
+            editState = null;
+            formCardTitle.textContent = '➕ Thêm Ứng Dụng / Gói APK / Đường Link Mới';
+            btnSubmit.textContent = '🚀 Lưu Ứng Dụng & Cập Nhật Kho';
+            btnCancelEdit.style.display = 'none';
+        } else {
+            var targetCat = data.find(function(c) { return c.id === catId; });
+            if (targetCat) {
+                targetCat.apps.unshift({ name: name, url: url, icon: icon, version: version, desc: desc });
+            }
         }
 
+        saveDataLocally();
+        renderList();
+
         if (token) {
-            setProgress(true, 'Đang cập nhật danh sách apps.js trên GitHub...', 90);
+            setProgress(true, 'Đang đồng bộ danh sách apps.js lên GitHub...', 90);
             await syncAppsJsToGitHub(repo, token);
-            setProgress(true, '✓ Đã tải lên GitHub hoàn tất!', 100);
+            setProgress(true, '✓ Đã cập nhật lên GitHub hoàn tất!', 100);
             setTimeout(function() { setProgress(false); }, 2500);
         }
 
         form.reset();
-        document.getElementById('apk-filename').textContent = 'Hỗ trợ tải trực tiếp file APK từ máy lên';
-        document.getElementById('icon-filename').textContent = 'PNG / JPG / WEBP (Tùy chọn)';
-        appIconInput.value = 'icons/app-smarttube.png';
+        document.getElementById('apk-filename').textContent = 'Hỗ trợ tải trực tiếp lên GitHub Releases của anh';
+        document.getElementById('icon-filename').textContent = 'PNG / JPG / WEBP (Hoặc dán link ảnh bên dưới)';
+        appIconInput.value = 'https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png';
     } catch (err) {
-        alert('Lỗi tải lên GitHub: ' + err.message);
+        alert('Lỗi: ' + err.message);
         setProgress(false);
     } finally {
         btnSubmit.disabled = false;
@@ -655,12 +892,12 @@ document.getElementById('btn-sync-gh').addEventListener('click', async function(
     var repo = ghRepoInput.value.trim();
     var token = ghTokenInput.value.trim();
     if (!token) {
-        alert('Anh hãy nhập GitHub Token ở khung bên trên và bấm Lưu Kết Nối trước nhé!');
+        alert('Anh hãy nhập GitHub Token ở khung bên trên và bấm "Lưu Kết Nối" trước nhé!');
         ghTokenInput.focus();
         return;
     }
     try {
-        setProgress(true, 'Đang đồng bộ danh sách lên GitHub...', 50);
+        setProgress(true, 'Đang đồng bộ apps.js lên GitHub...', 50);
         await syncAppsJsToGitHub(repo, token);
         setProgress(true, '✓ Đồng bộ danh sách lên GitHub thành công!', 100);
         setTimeout(function() { setProgress(false); }, 2500);
@@ -677,6 +914,15 @@ document.getElementById('btn-export').addEventListener('click', function() {
     a.href = URL.createObjectURL(blob);
     a.download = 'apps.js';
     a.click();
+});
+
+document.getElementById('btn-reset-cache').addEventListener('click', function() {
+    if (confirm('Nạp lại dữ liệu mới nhất từ file tv/data/apps.js vào trình duyệt?')) {
+        localStorage.removeItem('6789_store_data');
+        data = window.STORE_DATA || [];
+        renderList();
+        alert('✓ Đã nạp lại dữ liệu gốc thành công!');
+    }
 });
 
 renderList();

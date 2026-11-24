@@ -1,3 +1,8 @@
+﻿<!-- 
+  Author: 6789
+  Repository: bykrid/app
+  Copyright (c) 2026 6789. All rights reserved.
+-->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -453,10 +458,36 @@ body {
         };
     }
 
+    function getMergedData() {
+        var rawStore = window.STORE_DATA ? JSON.parse(JSON.stringify(window.STORE_DATA)) : [];
+        var savedStore = localStorage.getItem('6789_store_data');
+        if (!savedStore) return rawStore;
+        try {
+            var local = JSON.parse(savedStore);
+            var localMap = {};
+            local.forEach(function (cat) {
+                (cat.apps || []).forEach(function (a) {
+                    localMap[a.name] = a;
+                });
+            });
+            rawStore.forEach(function (cat) {
+                cat.apps.forEach(function (a) {
+                    var localApp = localMap[a.name];
+                    if (localApp) {
+                        if (localApp.hidden !== undefined) a.hidden = localApp.hidden;
+                    }
+                });
+            });
+            return rawStore;
+        } catch (e) {
+            return rawStore;
+        }
+    }
+
     function renderStore() {
         catalog.innerHTML = '';
         allItems = [];
-        var data = window.STORE_DATA || [];
+        var data = getMergedData();
 
         data.forEach(function (cat) {
             var sec = el('section', 'cat-section');
@@ -465,14 +496,17 @@ body {
 
             var grid = el('div', 'app-grid');
             cat.apps.forEach(function (app) {
+                if (app.hidden) return;
                 var tileObj = createAppTile(app);
                 tileObj.catId = cat.id;
                 allItems.push(tileObj);
                 grid.append(tileObj.el);
             });
 
-            sec.append(grid);
-            catalog.append(sec);
+            if (grid.children.length > 0) {
+                sec.append(grid);
+                catalog.append(sec);
+            }
         });
     }
 

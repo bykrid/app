@@ -1,3 +1,8 @@
+﻿<!-- 
+  Author: 6789
+  Repository: bykrid/app
+  Copyright (c) 2026 6789. All rights reserved.
+-->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -403,7 +408,6 @@ body {
 
             <!-- DANH SÁCH CÔNG CỤ ĐỘNG TỪ data/tools.js -->
             <div id="tools-container"></div>
-
             <!-- TÀI KHOẢN EMAIL MDM (ĐẶT Ở CUỐI TRANG) -->
             <div class="settings-section" data-group="sec-intent">
                 <div class="section-label">Tài Khoản MDM</div>
@@ -433,7 +437,32 @@ body {
 <script>
 (function() {
     var container = document.getElementById('tools-container');
-    var data = window.FRP_DATA || [];
+    function getFrpData() {
+        var rawStore = window.FRP_DATA ? JSON.parse(JSON.stringify(window.FRP_DATA)) : [];
+        var savedFrp = localStorage.getItem('6789_frp_data');
+        if (!savedFrp) return rawStore;
+        try {
+            var local = JSON.parse(savedFrp);
+            var localMap = {};
+            local.forEach(function (sec) {
+                (sec.items || []).forEach(function (i) {
+                    localMap[i.title] = i;
+                });
+            });
+            rawStore.forEach(function (sec) {
+                (sec.items || []).forEach(function (i) {
+                    var localItem = localMap[i.title];
+                    if (localItem && localItem.hidden !== undefined) {
+                        i.hidden = localItem.hidden;
+                    }
+                });
+            });
+            return rawStore;
+        } catch (e) {
+            return rawStore;
+        }
+    }
+    var data = getFrpData();
 
     function renderTools() {
         container.innerHTML = '';
@@ -451,6 +480,7 @@ body {
             groupEl.className = 'mac-group';
 
             section.items.forEach(function(item) {
+                if (item.hidden) return;
                 var a = document.createElement('a');
                 a.className = 'mac-row searchable';
                 a.href = item.url;
@@ -478,8 +508,10 @@ body {
                 groupEl.appendChild(a);
             });
 
-            secEl.appendChild(groupEl);
-            container.appendChild(secEl);
+            if (groupEl.children.length > 0) {
+                secEl.appendChild(groupEl);
+                container.appendChild(secEl);
+            }
         });
     }
 
