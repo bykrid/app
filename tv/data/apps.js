@@ -378,7 +378,7 @@ window.STORE_DATA = [
       {
         "name": "tvOS-Launcher-v2.2.5-Vi",
         "url": "https://github.com/bykrid/app/releases/download/khoapp-tv/tvOS-Launcher-v2.2.5-Vi.apk",
-        "icon": "https://github.com/bykrid/app/blob/main/tv/icons/tvos.jpg",
+        "icon": "https://raw.githubusercontent.com/bykrid/app/main/tv/icons/tvos.jpg",
         "version": "2.2.5",
         "desc": "Giao diện OSTV",
         "hidden": false
