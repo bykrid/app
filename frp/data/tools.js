@@ -120,14 +120,14 @@ window.FRP_DATA = [
       {
         "name": "Block Find My iPhone (BlockFMI.mobileconfig)",
         "desc": "Cấu hình chặn tìm kiếm iPhone",
-        "url": "https://hellochoi.online/Picture/BlockFMI.mobileconfig",
+        "url": "https://github.com/bykrid/app/releases/download/khoapp-mobile/Fix_YouTube.mobileconfig",
         "icon": "🚫",
         "actionText": "Tải Profile ↓"
       },
       {
         "name": "Fix YouTube iOS (Fix_YouTube.mobileconfig)",
         "desc": "Cấu hình sửa lỗi ứng dụng YouTube",
-        "url": "https://hellochoi.online/Picture/Fix_YouTube.mobileconfig",
+        "url": "https://github.com/bykrid/app/releases/download/khoapp-mobile/Fix_YouTube.mobileconfig",
         "icon": "📺",
         "actionText": "Tải Profile ↓"
       }
