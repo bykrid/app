@@ -419,11 +419,12 @@ window.STORE_DATA = [
         "hidden": false
       },
       {
-        "icon": "../Apps/tvbro/app_icon.png",
-        "url": "https://github.com/bykrid/app/releases/download/khoapp-tv/tvbro-3.0.7-generic-geckoIncluded-armeabi-v7a.apk",
         "name": "Trình Duyệt TV Bro (Chính Thức Truefedex)",
+        "url": "https://github.com/bykrid/app/releases/download/khoapp-tv/tvbro-3.0.7-generic-geckoIncluded-armeabi-v7a.apk",
+        "icon": "",
+        "version": "v3.0.7 Official",
         "desc": "Trình duyệt web cho Android TV chính thức từ tác giả Truefedex trên GitHub",
-        "version": "v3.0.7 Official"
+        "hidden": false
       },
       {
         "icon": "../Apps/browser/app_icon.jpg",
