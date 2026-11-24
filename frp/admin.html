@@ -762,7 +762,7 @@ function renderList() {
 
             var isImg = item.icon && (item.icon.includes('/') || item.icon.includes('.png') || item.icon.startsWith('http'));
             var iconHtml = isImg
-                ? '<img class="app-thumb" src="' + item.icon + '" onerror="this.src=\'https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png\'">'
+                ? '<img class="app-thumb" src="' + item.icon + '" onerror="this.src=\'icons/default.png\'">'
                 : '<div class="app-thumb">' + (item.icon || '🛠️') + '</div>';
 
             var hiddenBadge = item.hidden ? '<span class="badge-hidden">ĐANG ẨN</span>' : '';

@@ -364,8 +364,8 @@ body {
                     </div>
 
                     <div class="form-group">
-                        <label>🎨 Đường dẫn Icon hoặc Link ảnh</label>
-                        <input type="text" id="app-icon" value="https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png" placeholder="icons/ten-anh.png hoặc https://...">
+                        <label>🎨 Đường dẫn Icon hoặc Link ảnh (Bỏ trống sẽ dùng Icon mặc định 6789)</label>
+                        <input type="text" id="app-icon" value="icons/default.png" placeholder="icons/default.png hoặc ../Apps/ten-app/app_icon.png">
                     </div>
 
                     <div class="form-group">
@@ -766,7 +766,7 @@ function renderList() {
 
             item.innerHTML = `
                 <div class="app-info">
-                    <img class="app-thumb" src="${app.icon || 'icons/default.png'}" onerror="this.src='https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png'">
+                    <img class="app-thumb" src="${app.icon || 'icons/default.png'}" onerror="this.src='icons/default.png'">
                     <div style="min-width:0;">
                         <strong style="font-size:13.5px;">${app.name}</strong> 
                         <span class="badge">${cat.title}</span>
@@ -945,7 +945,7 @@ form.addEventListener('submit', async function(e) {
         form.reset();
         document.getElementById('apk-filename').textContent = 'Hỗ trợ tải trực tiếp lên GitHub Releases của anh';
         document.getElementById('icon-filename').textContent = 'PNG / JPG / WEBP (Hoặc dán link ảnh bên dưới)';
-        appIconInput.value = 'https://raw.githubusercontent.com/bykrid/app/main/Apps/smarttube/app_icon.png';
+        appIconInput.value = 'icons/default.png';
     } catch (err) {
         alert('Lỗi: ' + err.message);
         setProgress(false);

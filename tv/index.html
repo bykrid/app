@@ -327,22 +327,103 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
+/* ================= Auto-Responsive & Multi-Device Optimization ================= */
+.device-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: rgba(0, 113, 227, 0.14);
+    border: 0.5px solid rgba(100, 210, 255, 0.25);
+    color: #64d2ff;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.app-tile:focus-visible {
+    outline: 2.5px solid #64d2ff;
+    outline-offset: 2px;
+    background: #303034;
+    box-shadow: 0 10px 28px rgba(0, 113, 227, 0.35);
+    transform: translateY(-2px) scale(1.015);
+}
+
+/* 1. Large Screen / Smart TV 1080p & 4K (1600px+) */
+@media (min-width: 1600px) {
+    .app-container { max-width: 1680px; padding: 0 28px; }
+    .mac-window { grid-template-columns: 270px 1fr; }
+    .app-grid { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
+    .app-tile { padding: 16px 18px; border-radius: 14px; }
+    .app-icon { width: 64px; height: 64px; border-radius: 15px; }
+    .app-name { font-size: 15.5px; }
+    .app-desc { font-size: 13px; }
+    .btn-get { padding: 7px 16px; font-size: 13px; }
+    .nav-btn { font-size: 14.5px; padding: 10px 12px; }
+    .page-header h1 { font-size: 1.7rem; }
+}
+
+/* 2. Tablet & Small Laptop (768px - 1024px) */
+@media (max-width: 1024px) {
+    .mac-window { grid-template-columns: 195px 1fr; }
+    .content-area { padding: 20px 20px 32px; }
+    .app-grid { grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 10px; }
+}
+
+/* 3. Mobile & Compact Tablet (<= 820px) */
 @media (max-width: 820px) {
+    .app-container { margin: 8px auto 16px; padding: 0 8px; }
     .mac-window {
         grid-template-columns: 1fr;
+        min-height: calc(100vh - 54px);
+        border-radius: 14px;
     }
     .sidebar {
         border-right: 0;
         border-bottom: 0.5px solid var(--border-hairline);
+        padding: 12px;
+        gap: 10px;
+        position: sticky;
+        top: 30px;
+        z-index: 50;
+        background: rgba(22, 22, 24, 0.94);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
     }
+    .traffic-lights, .nav-label, .sidebar-bottom { display: none; }
     .nav-list {
         flex-direction: row;
         overflow-x: auto;
-        padding-bottom: 4px;
+        padding-bottom: 2px;
+        gap: 6px;
+        scrollbar-width: none;
     }
-    .nav-btn { white-space: nowrap; }
-    .content-area { padding: 20px 16px 32px; }
-    .page-header { flex-direction: column; gap: 4px; }
+    .nav-list::-webkit-scrollbar { display: none; }
+    .nav-btn {
+        white-space: nowrap;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 12.5px;
+    }
+    .nav-btn.active {
+        background: var(--mac-blue);
+        color: #fff;
+    }
+    .content-area { padding: 16px 12px 28px; }
+    .page-header { flex-direction: column; gap: 4px; margin-bottom: 16px; }
+    .page-header h1 { font-size: 1.25rem; }
+}
+
+/* 4. Small Smartphone (<= 480px) */
+@media (max-width: 480px) {
+    .menubar { padding: 0 10px; font-size: 11.5px; }
+    .menubar-left { gap: 10px; }
+    .app-grid { grid-template-columns: 1fr; gap: 9px; }
+    .app-tile { padding: 11px 12px; gap: 11px; }
+    .app-icon { width: 48px; height: 48px; border-radius: 11px; }
+    .app-name { font-size: 13.5px; }
+    .btn-get { padding: 5px 11px; font-size: 11.5px; }
 }
 </style>
 </head>
@@ -359,6 +440,7 @@ body {
         <a href="../frp/">FRP Tools</a>
     </div>
     <div class="menubar-right">
+        <span id="device-indicator" class="device-badge">🖥️ Auto Fit</span>
         <span id="secret-tv-admin" style="color: var(--text-secondary); cursor: default; user-select: none;">App Store</span>
     </div>
 </header>
@@ -422,17 +504,64 @@ body {
         return e;
     }
 
+    // Tự động vẽ Icon SVG phong cách iOS 27 Spatial Liquid Glass 3D khi ứng dụng mới chưa có ảnh icon
+    function makeSmartDefaultIcon(name) {
+        var clean = (name || '6789').replace(/[^a-zA-Z0-9\u00C0-\u1EF9\s]/g, '').trim();
+        var words = clean.split(/\s+/);
+        var initials = words.length >= 2
+            ? (words[0][0] + words[1][0]).toUpperCase()
+            : clean.substring(0, 3).toUpperCase();
+        var hash = 0;
+        for (var i = 0; i < clean.length; i++) hash = clean.charCodeAt(i) + ((hash << 5) - hash);
+        var palettes = [
+            ['#00E5FF', '#7928CA', '#FF0080'],
+            ['#00F2FE', '#4FACFE', '#7F00FF'],
+            ['#30D158', '#0A84FF', '#5E5CE6'],
+            ['#FF2D55', '#FF9500', '#7928CA'],
+            ['#64D2FF', '#5E5CE6', '#BF5AF2'],
+            ['#00C7BE', '#007AFF', '#5856D6']
+        ];
+        var pal = palettes[Math.abs(hash) % palettes.length];
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">'
+            + '<defs>'
+            + '<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">'
+            + '<stop offset="0%" stop-color="#070812"/><stop offset="100%" stop-color="#101426"/>'
+            + '</linearGradient>'
+            + '<radialGradient id="orb1" cx="22%" cy="20%" r="55%"><stop offset="0%" stop-color="' + pal[0] + '" stop-opacity="0.72"/><stop offset="100%" stop-color="' + pal[0] + '" stop-opacity="0"/></radialGradient>'
+            + '<radialGradient id="orb2" cx="82%" cy="25%" r="52%"><stop offset="0%" stop-color="' + pal[1] + '" stop-opacity="0.68"/><stop offset="100%" stop-color="' + pal[1] + '" stop-opacity="0"/></radialGradient>'
+            + '<radialGradient id="orb3" cx="76%" cy="84%" r="58%"><stop offset="0%" stop-color="' + pal[2] + '" stop-opacity="0.64"/><stop offset="100%" stop-color="' + pal[2] + '" stop-opacity="0"/></radialGradient>'
+            + '<linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">'
+            + '<stop offset="0%" stop-color="#fff" stop-opacity="0.24"/><stop offset="100%" stop-color="#fff" stop-opacity="0.06"/>'
+            + '</linearGradient>'
+            + '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">'
+            + '<stop offset="0%" stop-color="#fff" stop-opacity="0.75"/><stop offset="100%" stop-color="#64D2FF" stop-opacity="0.18"/>'
+            + '</linearGradient>'
+            + '</defs>'
+            + '<rect x="8" y="8" width="240" height="240" rx="56" fill="url(#bg)"/>'
+            + '<rect x="8" y="8" width="240" height="240" rx="56" fill="url(#orb1)"/>'
+            + '<rect x="8" y="8" width="240" height="240" rx="56" fill="url(#orb2)"/>'
+            + '<rect x="8" y="8" width="240" height="240" rx="56" fill="url(#orb3)"/>'
+            + '<rect x="8" y="8" width="240" height="240" rx="56" fill="none" stroke="url(#rim)" stroke-width="2.5"/>'
+            + '<rect x="22" y="22" width="212" height="212" rx="48" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.5"/>'
+            + '<text x="128" y="148" text-anchor="middle" fill="#fff" font-family="-apple-system,SF Pro Display,Segoe UI,sans-serif" font-weight="800" font-size="68" letter-spacing="-1">' + initials + '</text>'
+            + '</svg>';
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
     function createAppTile(app) {
         var a = el('a', 'app-tile');
         a.href = app.url;
         a.setAttribute('download', app.name + '.apk');
 
         var img = el('img', 'app-icon');
-        img.src = app.icon || 'icons/default.png';
-        img.alt = '';
+        img.src = app.icon || makeSmartDefaultIcon(app.name);
+        img.alt = app.name;
         img.loading = 'lazy';
         img.onerror = function() {
-            img.replaceWith(el('div', 'app-icon', '📦'));
+            if (!img.dataset.fallbackDone) {
+                img.dataset.fallbackDone = '1';
+                img.src = makeSmartDefaultIcon(app.name);
+            }
         };
 
         var meta = el('div', 'app-meta');
@@ -553,6 +682,31 @@ body {
         });
         if (best) { ev.preventDefault(); best.focus(); best.scrollIntoView({ block: 'nearest' }); }
     });
+
+    // Tự động nhận diện thiết bị & tối ưu kích thước hiển thị
+    function applyAutoDeviceOptimization() {
+        var ua = navigator.userAgent || '';
+        var w = window.innerWidth;
+        var isTV = /TV|Android.*(AFT|BRAVIA|MiBOX|MIBOX|SHIELD|GoogleTV|SmartTV|Tizen|Web0S)/i.test(ua) || (w >= 1600);
+        var isMobile = w <= 640 || /iPhone|Android.*Mobile/i.test(ua);
+        var isTablet = !isMobile && (w <= 1024 || /iPad|Tablet/i.test(ua));
+        var badge = document.getElementById('device-indicator');
+        if (isTV) {
+            document.body.dataset.device = 'tv';
+            if (badge) badge.textContent = '📺 Smart TV Mode';
+        } else if (isMobile) {
+            document.body.dataset.device = 'mobile';
+            if (badge) badge.textContent = '📱 Mobile Fit';
+        } else if (isTablet) {
+            document.body.dataset.device = 'tablet';
+            if (badge) badge.textContent = '📲 Tablet Fit';
+        } else {
+            document.body.dataset.device = 'desktop';
+            if (badge) badge.textContent = '💻 Desktop Fit';
+        }
+    }
+    applyAutoDeviceOptimization();
+    window.addEventListener('resize', applyAutoDeviceOptimization);
 
     // Bấm 3 lần vào chữ "App Store" ở góc phải để mở nhanh Admin TV
     var clicks = 0, timer;
