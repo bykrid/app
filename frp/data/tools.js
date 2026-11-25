@@ -7,7 +7,7 @@ window.FRP_DATA = [
         "name": "Vivo Easy Share",
         "desc": "",
         "url": "intent://com.vivo.easyshare/#Intent;scheme=android-app;end",
-        "icon": "https://www.google.com/imgres?q=easy%20share&imgurl=https%3A%2F%2Fplay-lh.googleusercontent.com%2F9qENDkfaa8rT4WZLMLgtw55yGOaFEEWmWaPSr-Uu1gQ3Fcak0rnEjeDxXd-39DkGXgdIi2fnZKot8APFV-d6yg&imgrefurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.vivo.easyshare&docid=bjsJ7UeGIr8D7M&tbnid=RAsBF4KjtgJwvM&vet=12ahUKEwiHkuyI7qKYAxXVslYBHUCiJD4QnPAOegUItwIQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwiHkuyI7qKYAxXVslYBHUCiJD4QnPAOegUItwIQAA",
+        "icon": "frp/icons/unnamed.png",
         "actionText": "Mở →",
         "download": false,
         "hidden": false
